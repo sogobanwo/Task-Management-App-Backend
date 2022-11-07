@@ -103,16 +103,16 @@ app.post('/edit', async (req, res) => {
   }
 });
 
-// 1. route to delete a item using its id
-app.post('/delete/:item_id', async (req, res) => {
+// 1. route to delete a todo using its id
+app.post('/delete/:todo_id', async (req, res) => {
   // 2. get the id from the url parameter
-  const { item_id } = req.params;
+  const { todo_id } = req.params;
   // 3. use try/catch to control errors
   try {
     // 4. Send a delete request to the database
     const response = await db.delete({
       table: 'items',
-      hashValues: [item_id],
+      hashValues: [todo_id],
     });
 
     // 5. send success message to the frontend
