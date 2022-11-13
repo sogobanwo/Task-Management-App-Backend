@@ -103,6 +103,32 @@ app.post('/edit', async (req, res) => {
   }
 });
 
+app.patch("/todos/:item_id", async (req, res) => {
+  try{
+    const response1 = await db.searchByHash({
+      table: "items",
+      hashValues: [req.params.item_id],
+      attributes: ["isCompleted"],
+    });
+
+    const currentIsCompleted = response1.data[0].isCompleted;
+
+    const option = {
+      id: req.params.item_id,
+      isCompleted: !currentIsCompleted,
+    };
+
+    const response2 = await db.update({
+      table: "items",
+      records: [option],
+    });
+
+    res.status(200).send(response2);
+  } catch(error){
+    res.status(500).send(error);
+  }
+});
+
 // 1. route to delete a todo using its id
 app.post('/delete/:todo_id', async (req, res) => {
   // 2. get the id from the url parameter
